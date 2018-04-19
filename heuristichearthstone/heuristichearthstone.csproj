@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SabberStoneCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\SabberStoneCore.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,8 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="CreateAndMutate.cs" />
+    <Compile Include="Meta\Decks.cs" />
+    <Compile Include="Meta\DeckTypes.cs" />
+    <Compile Include="Node\OptionNode.cs" />
+    <Compile Include="Score\AggroScore.cs" />
+    <Compile Include="Score\Control.cs" />
+    <Compile Include="Score\Fatigue.cs" />
+    <Compile Include="Score\MidRangeScore.cs" />
+    <Compile Include="Score\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Score\Ramp.cs" />
+    <Compile Include="Score\Score.cs" />
+    <Compile Include="Meta\Strategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
