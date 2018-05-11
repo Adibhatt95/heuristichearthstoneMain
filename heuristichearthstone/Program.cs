@@ -79,11 +79,11 @@ namespace heuristichearthstone
             //int GPUID = 1;
             //int numGames = 10;
 
-            int GPUID = int.Parse(args[0]) - 1;//1;//1;// -1 for Ms hoover0;// 0;//
+            int GPUID = 1;//1;// -1 for Ms hoover0;// 0;//int.Parse(args[0]) - 1;//
 
-            string folderName = args[1].ToString();//"22-02-2018-23-54-44";// "starter-0";/"starter-0";//
-            int numGames = int.Parse(args[2]);//200;// 100;// 100;//100;//
-            int deckIncrement = int.Parse(args[3]); //2;// 0;//  0;//
+            string folderName = "starter-0";// args[1].ToString();//"22-02-2018-23-54-44";// "starter-0";/"starter-0";//
+            int numGames = 100;// int.Parse(args[2]);//200;// 100;// 100;//100;//
+            int deckIncrement = 1;// int.Parse(args[3]); //2;// 0;//  0;//
 
             int deckID = GPUID / numGames;
             int remainder = GPUID % numGames;
@@ -739,6 +739,19 @@ namespace heuristichearthstone
             });
             return game;
         }
+
+        public List<Game> chooseFromForward_GameStates(List<Game> forward_gameStates)
+        {
+            int max = 0;
+            foreach (Game game in forward_gameStates)
+            {
+                if (max < game.Player1.BoardZone.Count)
+                {
+                    max = game.Player1.BoardZone.Count;
+                }
+            }
+            return (List<Game>)forward_gameStates.Where(p => p.Player1.BoardZone.Count == max);
+        }
         //the game we need
         public static string FullGame(List<Card> player1Deck, int where, List<Card> player2Deck, string gameLogAddr)
         {
@@ -766,15 +779,7 @@ namespace heuristichearthstone
 
             while (game.State != State.COMPLETE)
             {
-                //  Console.WriteLine("here:" + where);
-                logsbuild += $"Player1: {game.Player1.PlayState} / Player2: {game.Player2.PlayState} - " +
-                    $"ROUND {(game.Turn + 1) / 2} - {game.CurrentPlayer.Name}" + "\n";
-                logsbuild += $"Hero[P1]: {game.Player1.Hero.Health} / Hero[P2]: {game.Player2.Hero.Health}" + "\n";
-                logsbuild += "\n";
-                //Console.WriteLine($"Player1: {game.Player1.PlayState} / Player2: {game.Player2.PlayState} - " +
-                //  $"ROUND {(game.Turn + 1) / 2} - {game.CurrentPlayer.Name}");//I get round number here, can cut it off right here
-                //Console.WriteLine($"Hero[P1]: {game.Player1.Hero.Health} / Hero[P2]: {game.Player2.Hero.Health}");
-                //Console.WriteLine("");
+               
                 while (game.State == State.RUNNING && game.CurrentPlayer == game.Player1)
                 {
                     var allCardsPossible = game.Player1.HandZone.GetAll.Where(p => p.IsPlayableByPlayer && p.IsPlayableByCardReq).ToList();
