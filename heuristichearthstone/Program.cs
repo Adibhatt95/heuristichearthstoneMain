@@ -87,7 +87,7 @@ namespace heuristichearthstone
 
             int deckID = GPUID / numGames;
             int remainder = GPUID % numGames;
-            int gamesPerCPUs = int.Parse(args[4]);//25
+            int gamesPerCPUs = 25;// int.Parse(args[4]);//25
 
             //sample: heuristichearthstone.exe array_ID starter-0 400 0 25
 
@@ -740,7 +740,7 @@ namespace heuristichearthstone
             return game;
         }
 
-        public List<Game> chooseFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMaxNumMinionPlayerFromForward_GameStates(List<Game> forward_gameStates)
         {
             int max = 0;
             foreach (Game game in forward_gameStates)
@@ -751,6 +751,102 @@ namespace heuristichearthstone
                 }
             }
             return (List<Game>)forward_gameStates.Where(p => p.Player1.BoardZone.Count == max);
+        }
+        public List<Game> chooseMinNumMinionPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        {
+            int min = 999;
+            foreach (Game game in forward_gameStates)
+            {
+                if (min > game.Player1.BoardZone.Count)
+                {
+                    min = game.Player1.BoardZone.Count;
+                }
+            }
+            return (List<Game>)forward_gameStates.Where(p => p.Player1.BoardZone.Count == min);
+        }
+        public List<Game> chooseMaxNumMinionOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        {
+            int max = 0;
+            foreach (Game game in forward_gameStates)
+            {
+                if (max < game.Player1.BoardZone.Count)
+                {
+                    max = game.Player1.BoardZone.Count;
+                }
+            }
+            return (List<Game>)forward_gameStates.Where(p => p.Player2.BoardZone.Count == max);
+        }
+        public List<Game> chooseMinNumMinionOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        {
+            int min = 999;
+            foreach (Game game in forward_gameStates)
+            {
+                if (min > game.Player1.BoardZone.Count)
+                {
+                    min = game.Player1.BoardZone.Count;
+                }
+            }
+            return (List<Game>)forward_gameStates.Where(p => p.Player2.BoardZone.Count == min);
+        }
+        public static List<Game> chooseMaxSumAttackMinionPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        {
+            int max = 0;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int attackOfThisGameSoFar = 0;
+                var minionList = game.Player1.BoardZone.GetAll.ToList();
+                foreach(SabberStoneCore.Model.Entities.IPlayable minion in minionList)
+                {
+                    var tags = minion.Card.Tags;
+                    
+                    attackOfThisGameSoFar += tags[GameTag.ATK];
+                    //currentCard.a
+                }
+                if (max < attackOfThisGameSoFar)
+                {
+                    max = attackOfThisGameSoFar;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
+        }
+        
+       // public List<Game> chooseMinSumAttackMinionPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+       // public List<Game> chooseMaxSumAttackMinionOpponentromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+        //public List<Game> chooseMinSumAttackMinionOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+       // public List<Game> chooseMaxManaPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+       // public List<Game> chooseMinManaPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+        //public List<Game> chooseMaxHealthPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+       // public List<Game> chooseMinHealthPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+       // public List<Game> chooseMaxHealthOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
+        }
+       // public List<Game> chooseMinHealthOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        {
+
         }
         //the game we need
         public static string FullGame(List<Card> player1Deck, int where, List<Card> player2Deck, string gameLogAddr)
@@ -825,7 +921,7 @@ namespace heuristichearthstone
                         forward_gameStates[i].Process(result[i]);
                     }
                     forward_gameStates.Add(game.Clone()); // Index of result.Count + 1 means action is to Do Nothing.
-
+                    List<Game> checkForwardGameStatesGotten = chooseMaxSumAttackMinionPlayerFromForward_GameStates(forward_gameStates);
                     if (result.Count > 0)
                     {
                         game.Process(result[0]);
