@@ -79,23 +79,26 @@ namespace heuristichearthstone
             //int GPUID = 1;
             //int numGames = 10;
 
-            int GPUID = 1;//1;// -1 for Ms hoover0;// 0;//int.Parse(args[0]) - 1;//
+            int GPUID = int.Parse(args[0]) - 1;//1;//1;// -1 for Ms hoover0;// 0;//
 
-            string folderName = "starter-0";// args[1].ToString();//"22-02-2018-23-54-44";// "starter-0";/"starter-0";//
-            int numGames = 100;// int.Parse(args[2]);//200;// 100;// 100;//100;//
-            int deckIncrement = 1;// int.Parse(args[3]); //2;// 0;//  0;//
+            string folderName = args[1].ToString();//"22-02-2018-23-54-44";// "starter-0";/"starter-0";//
+            int numGames = int.Parse(args[2]);//200;// 100;// 100;//100;//
+            int deckIncrement = int.Parse(args[3]); //2;// 0;//  0;//
 
             int deckID = GPUID / numGames;
             int remainder = GPUID % numGames;
-            int gamesPerCPUs = 25;// int.Parse(args[4]);//25
+            // int gamesPerCPUs = int.Parse(args[4]);//25
 
-            //sample: heuristichearthstone.exe array_ID starter-0 400 0 25
+            //sample: GamePlayer.exe array_ID generation-0 400 1
 
             // int numGames = 0;
             Console.WriteLine("here for Hunter Deck GPUID=" + GPUID + "numgames=" + numGames + "folderanme=" + folderName);
             Console.WriteLine("here GPUID=" + GPUID + "numgames=" + numGames + "folderanme=" + folderName);
             string path = folderName + "/Decks.txt";
             int level = int.Parse(folderName.Split('-')[1]);
+            enemyDeckClass = getClassFromFile(folderName + "/EnemyDeck.txt");
+            friendDeckClass = getClassFromFile(folderName + "/FriendDeck.txt");
+            List<Card> playerDeck2 = getDeckFromFile(folderName + "/EnemyDeck.txt");
             while (true)
             {
 
@@ -106,21 +109,20 @@ namespace heuristichearthstone
                     Console.WriteLine("Found " + folderName);
                     Thread.Sleep(10000);
                     path = folderName + "/Decks.txt";
-                    // Dictionary<int, List<Card>> nDecks = getDecksFromFile(path);
+                    Dictionary<int, List<Card>> nDecks = getDecksFromFile(path);
 
                     int j = 0;
                     int currDeckID = deckID;
-                    while (j < gamesPerCPUs)
+                    while (j < nDecks.Count)
                     {
-                        List<Card> playerDeck2 = getDeckFromFile(folderName + "/EnemyDeck.txt");
-                        List<Card> playerDeck = getDeckFromFile(folderName + "/FriendDeck.txt"); //nDecks[currDeckID];
+
+                        List<Card> playerDeck = nDecks[currDeckID];
                         Console.WriteLine("Enemy deck:-size=" + playerDeck2.Count);
                         createMutateObj.print(playerDeck2);
                         Console.WriteLine("Friend deck:- size=" + playerDeck.Count);
                         createMutateObj.print(playerDeck);
                         string gameLogAddr = folderName + "/Deck" + currDeckID;
-                        enemyDeckClass = getClassFromFile(folderName + "/EnemyDeck.txt");
-                        friendDeckClass = getClassFromFile(folderName + "/FriendDeck.txt");
+
                         Console.WriteLine("currently on deck =" + currDeckID);
                         gameLogAddr += "/" + GPUID + "-" + j + ".txt";
 
@@ -234,8 +236,8 @@ namespace heuristichearthstone
                     level++;
                     folderName = folderName.Split('-')[0] + "-" + level.ToString();
                     results.Clear();
-                    //  nDecks.Clear();
-                    //  Console.WriteLine("count of nDecks=" + nDecks.Count);
+                    nDecks.Clear();
+                    Console.WriteLine("count of nDecks=" + nDecks.Count);
                     Console.WriteLine("trying to find " + folderName);
                 }
             }
