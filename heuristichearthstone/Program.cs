@@ -812,41 +812,164 @@ namespace heuristichearthstone
             return returnedGameState;
         }
         
-       // public List<Game> chooseMinSumAttackMinionPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMinSumAttackMinionPlayerFromForward_GameStates(List<Game> forward_gameStates)
         {
+            int min = 999;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int attackOfThisGameSoFar = 0;
+                var minionList = game.Player1.BoardZone.GetAll.ToList();
+                foreach (SabberStoneCore.Model.Entities.IPlayable minion in minionList)
+                {
+                    var tags = minion.Card.Tags;
 
+                    attackOfThisGameSoFar += tags[GameTag.ATK];
+                    //currentCard.a
+                }
+                if (min > attackOfThisGameSoFar)
+                {
+                    min = attackOfThisGameSoFar;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-       // public List<Game> chooseMaxSumAttackMinionOpponentromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMaxSumAttackMinionOpponentromForward_GameStates(List<Game> forward_gameStates)
         {
+            int max = 0;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int attackOfThisGameSoFar = 0;
+                var minionList = game.Player2.BoardZone.GetAll.ToList();
+                foreach (SabberStoneCore.Model.Entities.IPlayable minion in minionList)
+                {
+                    var tags = minion.Card.Tags;
 
+                    attackOfThisGameSoFar += tags[GameTag.ATK];
+                    //currentCard.a
+                }
+                if (max < attackOfThisGameSoFar)
+                {
+                    max = attackOfThisGameSoFar;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-        //public List<Game> chooseMinSumAttackMinionOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMinSumAttackMinionOpponentFromForward_GameStates(List<Game> forward_gameStates)
         {
+            int min = 999;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int attackOfThisGameSoFar = 0;
+                var minionList = game.Player2.BoardZone.GetAll.ToList();
+                foreach (SabberStoneCore.Model.Entities.IPlayable minion in minionList)
+                {
+                    var tags = minion.Card.Tags;
 
+                    attackOfThisGameSoFar += tags[GameTag.ATK];
+                    //currentCard.a
+                }
+                if (min > attackOfThisGameSoFar)
+                {
+                    min = attackOfThisGameSoFar;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-       // public List<Game> chooseMaxManaPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMaxManaPlayerFromForward_GameStates(List<Game> forward_gameStates)
         {
-
+            int max = 0;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int remainingMana = game.Player1.RemainingMana;
+                if (max < remainingMana)
+                {
+                    max = remainingMana;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-       // public List<Game> chooseMinManaPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMinManaPlayerFromForward_GameStates(List<Game> forward_gameStates)
         {
-
+            int min = 999;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int remainingMana = game.Player1.RemainingMana;
+                if (min > remainingMana)
+                {
+                    min = remainingMana;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-        //public List<Game> chooseMaxHealthPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMaxHealthPlayerFromForward_GameStates(List<Game> forward_gameStates)
         {
-
+            int max = 0;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int remainingMana = game.Player1.Hero.Health;
+                if (max < remainingMana)
+                {
+                    max = remainingMana;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-       // public List<Game> chooseMinHealthPlayerFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMinHealthPlayerFromForward_GameStates(List<Game> forward_gameStates)
         {
-
+            int min = 999;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int remainingMana = game.Player1.Hero.Health;
+                if (min > remainingMana)
+                {
+                    min = remainingMana;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-       // public List<Game> chooseMaxHealthOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMaxHealthOpponentFromForward_GameStates(List<Game> forward_gameStates)
         {
-
+            int max = 0;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int remainingMana = game.Player2.Hero.Health;
+                if (max < remainingMana)
+                {
+                    max = remainingMana;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
-       // public List<Game> chooseMinHealthOpponentFromForward_GameStates(List<Game> forward_gameStates)
+        public List<Game> chooseMinHealthOpponentFromForward_GameStates(List<Game> forward_gameStates)
         {
-
+            int min = 999;
+            List<Game> returnedGameState = new List<Game>();
+            foreach (Game game in forward_gameStates)
+            {
+                int remainingMana = game.Player2.Hero.Health;
+                if (min > remainingMana)
+                {
+                    min = remainingMana;
+                    returnedGameState = forward_gameStates;
+                }
+            }
+            return returnedGameState;
         }
         //the game we need
         public static string FullGame(List<Card> player1Deck, int where, List<Card> player2Deck, string gameLogAddr)
